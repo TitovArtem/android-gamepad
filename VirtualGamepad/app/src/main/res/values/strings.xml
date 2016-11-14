@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VirtualGamepad</string>
+    <string name="app_name">Virtual Gamepad</string>
     <string name="conn_input_host">Input host</string>
     <string name="conn_input_port">Input port</string>
     <string name="conn_invalid_host_err">Invalid host</string>
@@ -9,4 +9,5 @@
     <string name="conn_invalid_port_err">Invalid port</string>
     <string name="conn_connection_btn_text">connect</string>
     <string name="conn_connection_title">Connection</string>
+    <string name="conn_network_is_unreachable">Network is unreachable.\nCheck network connection and try again.</string>
 </resources>

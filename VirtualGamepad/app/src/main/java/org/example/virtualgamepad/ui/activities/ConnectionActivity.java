@@ -3,12 +3,16 @@ package org.example.virtualgamepad.ui.activities;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.example.virtualgamepad.R;
 import org.example.virtualgamepad.data.managers.DataManager;
+import org.example.virtualgamepad.utils.NetworkStatusChecker;
 import org.example.virtualgamepad.utils.TcpClient;
 
 import java.net.InetAddress;
@@ -22,6 +26,8 @@ import butterknife.ButterKnife;
  * Activity for connection to server.
  */
 public class ConnectionActivity extends BaseActivity implements View.OnClickListener {
+
+    private static final String TAG = "ConnectionActivity";
 
     @BindView(R.id.conn_address_et) EditText mAddressEt;
     @BindView(R.id.conn_port_id) EditText mPortEt;
@@ -40,7 +46,12 @@ public class ConnectionActivity extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.connect_btn:
-                connect();
+                if (NetworkStatusChecker.isAvailable(this) == false) {
+                    showToast(getString(R.string.conn_network_is_unreachable));
+                } else {
+                    connect();
+                }
+                break;
         }
     }
 
@@ -50,7 +61,8 @@ public class ConnectionActivity extends BaseActivity implements View.OnClickList
         new ConnectionTask().execute(address, port);
     }
 
-    private class ConnectionTask extends AsyncTask<String, Void, Void> {
+    /* Class for async connection to server. */
+    private class ConnectionTask extends AsyncTask<String, Void, Boolean> {
         private TcpClient mTcpClient;
 
         @Override
@@ -60,20 +72,22 @@ public class ConnectionActivity extends BaseActivity implements View.OnClickList
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(Boolean result) {
+            System.out.println(result);
             if (mTcpClient != null && mTcpClient.isConnected()) {
-                showToast(getString(R.string.conn_success_connection));
+                //showToast(getString(R.string.conn_success_connection));
                 DataManager.getInstance().setTcpClient(mTcpClient);
                 Intent intent = new Intent(ConnectionActivity.this, MainActivity.class);
                 startActivity(intent);
-            } else {
+            } else if (!result) {
                 showToast(getString(R.string.conn_connect_err));
             }
             super.onPostExecute(result);
         }
 
         @Override
-        protected Void doInBackground(String... strings) {
+        protected Boolean doInBackground(String... strings) {
+            boolean isInvalidInput = false;
             try {
                 String host = strings[0];
                 int port = Integer.parseInt(strings[1]);
@@ -81,12 +95,25 @@ public class ConnectionActivity extends BaseActivity implements View.OnClickList
 
                 // Try to connect
                 mTcpClient.run();
-            } catch (UnknownHostException exc) {    // TODO: invalid call showError
+            } catch (UnknownHostException exc) {
                 showError(getString(R.string.conn_invalid_host_err), exc);
-            } catch (NumberFormatException exc) {   // TODO: invalid call showError
+                isInvalidInput = true;
+            } catch (NumberFormatException exc) {
                 showError(getString(R.string.conn_invalid_port_err), exc);
+                isInvalidInput = true;
             }
-            return null;
+            return isInvalidInput;
+        }
+
+        private void showError(final String message, Exception exc) {
+            Log.e(TAG, String.valueOf(exc));
+            new Handler(ConnectionActivity.this.getMainLooper()).post(new Runnable() {
+
+                @Override
+                public void run() {
+                    Toast.makeText(ConnectionActivity.this, message, Toast.LENGTH_LONG).show();
+                }
+            });
         }
     }
 }
