@@ -4,10 +4,21 @@
     <string name="conn_input_port">Input port</string>
     <string name="conn_invalid_host_err">Invalid host</string>
     <string name="conn_connect_err">Couldn\'t connect to server</string>
-    <string name="conn_success_connection">Connection successful</string>
     <string name="conn_connecting_msg">Connecting...</string>
     <string name="conn_invalid_port_err">Invalid port</string>
     <string name="conn_connection_btn_text">connect</string>
     <string name="conn_connection_title">Connection</string>
     <string name="conn_network_is_unreachable">Network is unreachable.\nCheck network connection and try again.</string>
+    <string name="l2_btn">L2</string>
+    <string name="l1_btn">L1</string>
+    <string name="r1_btn">R1</string>
+    <string name="r2_btn">R2</string>
+    <string name="up_dpad_btn">▲</string>
+    <string name="left_dpad_btn">◀</string>
+    <string name="right_dpad_btn">▶</string>
+    <string name="down_dpad_btn">▼</string>
+    <string name="act_up_btn">y</string>
+    <string name="act_left_btn">x</string>
+    <string name="act_right_btn">b</string>
+    <string name="act_down_btn">a</string>
 </resources>

@@ -21,4 +21,18 @@
         <item name="android:textSize">@dimen/font_normal_14</item>
     </style>
 
+    <!-- Dpad buttons in MainActivity -->
+    <style name="dpad_btn">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:textSize">@dimen/font_medium_20</item>
+    </style>
+
+    <!-- Action buttons in MainActivity -->
+    <style name="act_btn">
+        <item name="android:layout_width">55dp</item>
+        <item name="android:layout_height">55dp</item>
+        <item name="android:textSize">@dimen/font_medium_20</item>
+    </style>
+
 </resources>
