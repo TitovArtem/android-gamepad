@@ -16,4 +16,6 @@ public class ButtonCodes {
     public final static int R2_BTN = 9;
     public final static int L1_BTN = 10;
     public final static int L2_BTN = 11;
+    public final static int START_BTN = 12;
+    public final static int SELECT_BTN = 13;
 }

@@ -21,4 +21,6 @@
     <string name="act_left_btn">x</string>
     <string name="act_right_btn">b</string>
     <string name="act_down_btn">a</string>
+    <string name="start_btn_tv">start</string>
+    <string name="select_btn_tv">select</string>
 </resources>

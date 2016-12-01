@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     @BindView(R.id.r1_btn) Button mR1Button;
     @BindView(R.id.r2_btn) Button mR2Button;
 
+    @BindView(R.id.start_btn) Button mStartButton;
+    @BindView(R.id.select_btn) Button mSelectButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         mL2Button.setOnTouchListener(this);
         mR1Button.setOnTouchListener(this);
         mR2Button.setOnTouchListener(this);
+        mSelectButton.setOnTouchListener(this);
+        mStartButton.setOnTouchListener(this);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
@@ -64,10 +68,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
 
-        final int action = motionEvent.getAction();
+        int action = motionEvent.getAction();
         if (action != MotionEvent.ACTION_DOWN && action != MotionEvent.ACTION_UP) {
             return false;
         }
+        action = action == 0 ? 1 : 0;   // Reverse codes
 
         final int buttonCode = getButtonCodeFromViewId(view.getId());
         if (buttonCode >= 0) {
@@ -102,6 +107,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 return ButtonCodes.L1_BTN;
             case R.id.l2_btn:
                 return ButtonCodes.L2_BTN;
+            case R.id.select_btn:
+                return ButtonCodes.SELECT_BTN;
+            case R.id.start_btn:
+                return ButtonCodes.START_BTN;
         }
         return -1;
     }

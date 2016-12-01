@@ -73,7 +73,6 @@ public class ConnectionActivity extends BaseActivity implements View.OnClickList
 
         @Override
         protected void onPostExecute(Boolean result) {
-            System.out.println(result);
             if (mTcpClient != null && mTcpClient.isConnected()) {
                 DataManager.getInstance().setTcpClient(mTcpClient);
                 Intent intent = new Intent(ConnectionActivity.this, MainActivity.class);
@@ -90,7 +89,7 @@ public class ConnectionActivity extends BaseActivity implements View.OnClickList
             try {
                 String host = strings[0];
                 int port = Integer.parseInt(strings[1]);
-                mTcpClient = new TcpClient(InetAddress.getByName(host), port, 20000);
+                mTcpClient = new TcpClient(InetAddress.getByName(host), port, 10000);
 
                 // Try to connect
                 mTcpClient.run();
