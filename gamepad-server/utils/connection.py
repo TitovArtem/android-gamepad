@@ -1,5 +1,5 @@
 from utils.driver_connector import DriverDataProvider
-from utils.server import TcpServer
+from utils.server import TcpServer, TcpServerThreadManager
 
 
 def singleton(cls):
@@ -16,18 +16,18 @@ def singleton(cls):
 class ConnectionManager(object):
 
     def __init__(self):
-        self._server = None
+        self._server_thread_manager = None
         self._driver_provider = None
 
     @property
-    def server(self):
-        return self._server
+    def server_thread_manager(self):
+        return self._server_thread_manager
 
-    @server.setter
-    def server(self, obj):
+    @server_thread_manager.setter
+    def server_thread_manager(self, obj):
         if obj is None:
             ValueError("The given server object is none.")
-        self._server = obj
+        self._server_thread_manager = obj
 
     @property
     def driver_data_provider(self):
@@ -45,19 +45,22 @@ def create_connection(host, port, device_driver_path):
     driver_data_provider = DriverDataProvider(device_driver_path)
 
     server.add_listener(driver_data_provider)
+    server_thread_manager = TcpServerThreadManager(server)
 
     connection_manager = ConnectionManager()
     connection_manager.driver_data_provider = driver_data_provider
-    connection_manager.server = server
+    connection_manager.server_thread_manager = server_thread_manager
 
     return connection_manager
 
 
 def open_connection(connection_manager):
     connection_manager.driver_data_provider.open()
-    connection_manager.server.start_listen()
+    connection_manager.server_thread_manager.start()
 
 
 def close_connection(connection_manager):
-    connection_manager.server.stop_listen()
-    connection_manager.driver_data_provider.close()
+    if connection_manager.server_thread_manager:
+        connection_manager.server_thread_manager.stop()
+    if connection_manager.driver_data_provider:
+        connection_manager.driver_data_provider.close()

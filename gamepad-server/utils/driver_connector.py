@@ -11,6 +11,7 @@ class Listener(object):
 
 
 class DriverDataProvider(Listener):
+    """ The manager for accessing to device driver file. """
 
     def __init__(self, device_driver_path):
         if not device_driver_path:
@@ -27,8 +28,9 @@ class DriverDataProvider(Listener):
         self._device_fd = os.open(self._device_driver_path, os.O_RDWR)
 
     def close(self):
-        os.close(self._device_fd)
-        self._device_fd = None
+        if self._device_fd:
+            os.close(self._device_fd)
+            self._device_fd = None
 
     def send(self, msg):
         if msg:
