@@ -4,7 +4,7 @@ from utils.connection import create_connection, open_connection, \
 
 class MainWindowController(object):
 
-    DRIVER_PATH_FILE = "/sys/devices/platform/gamepad/gamepad"
+    DRIVER_PATH = "/sys/devices/platform/virtual_gamepad/commands"
 
     def connect(self, host, port):
         conn_manager = ConnectionManager()
@@ -12,7 +12,7 @@ class MainWindowController(object):
                 not conn_manager.server_thread_manager.stopped():
             raise ConnectionError("TCP Server is already listening.")
 
-        conn_manager = create_connection(host, port, self.DRIVER_PATH_FILE)
+        conn_manager = create_connection(host, port, self.DRIVER_PATH)
         open_connection(conn_manager)
 
     def disconnect(self):
