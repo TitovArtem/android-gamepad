@@ -9,13 +9,16 @@ import android.view.Window;
 import android.widget.Button;
 
 import org.example.virtualgamepad.R;
-import org.example.virtualgamepad.data.managers.DataManager;
+import org.example.virtualgamepad.data.managers.ConnectionManager;
 import org.example.virtualgamepad.utils.ButtonCodes;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
+/**
+ * The main activity which represents the gamepad.
+ */
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
 
     @BindView(R.id.dpad_up_btn) Button mDpadUpButton;
@@ -119,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         new Thread(new Runnable() {
             @Override
             public void run() {
-                DataManager.getInstance().getTcpClient().sendMessage(cmd);
+                ConnectionManager.getInstance().getTcpClient().sendMessage(cmd);
             }
         }).start();
     }

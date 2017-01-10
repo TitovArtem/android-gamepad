@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.example.virtualgamepad.R;
-import org.example.virtualgamepad.data.managers.DataManager;
+import org.example.virtualgamepad.data.managers.ConnectionManager;
 import org.example.virtualgamepad.utils.NetworkStatusChecker;
 import org.example.virtualgamepad.utils.TcpClient;
 
@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 
 
 /**
- * Activity for connection to server.
+ * Activity for connecting to server.
  */
 public class ConnectionActivity extends BaseActivity implements View.OnClickListener {
 
@@ -74,7 +74,7 @@ public class ConnectionActivity extends BaseActivity implements View.OnClickList
         @Override
         protected void onPostExecute(Boolean result) {
             if (mTcpClient != null && mTcpClient.isConnected()) {
-                DataManager.getInstance().setTcpClient(mTcpClient);
+                ConnectionManager.getInstance().setTcpClient(mTcpClient);
                 Intent intent = new Intent(ConnectionActivity.this, MainActivity.class);
                 startActivity(intent);
             } else if (!result) {

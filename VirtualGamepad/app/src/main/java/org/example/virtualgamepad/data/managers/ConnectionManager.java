@@ -3,25 +3,18 @@ package org.example.virtualgamepad.data.managers;
 import org.example.virtualgamepad.utils.TcpClient;
 
 /**
- * Singleton for accessing to data and connection bindings.
+ * Singleton for connection bindings.
  */
-public class DataManager {
-    private static DataManager sInstance;
+public class ConnectionManager {
+    private static ConnectionManager sInstance;
 
     private TcpClient mTcpClient;
 
-    public DataManager(TcpClient client) {
-        if (client == null) {
-            throw new NullPointerException("The given client is null.");
-        }
-        mTcpClient = client;
-    }
+    private ConnectionManager() {}
 
-    public DataManager() {}
-
-    public static synchronized DataManager getInstance() {
+    public static synchronized ConnectionManager getInstance() {
         if (sInstance == null) {
-            sInstance = new DataManager();
+            sInstance = new ConnectionManager();
         }
         return sInstance;
     }

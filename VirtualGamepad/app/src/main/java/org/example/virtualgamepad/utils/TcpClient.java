@@ -24,6 +24,7 @@ public class TcpClient implements Runnable {
     private final InetAddress mAddress;
     private final int mPort;
     private int mConnectionTimeout = 5000;
+
     public TcpClient(InetAddress address, int port) {
         if (address == null) {
             throw new NullPointerException("The given address is null.");
